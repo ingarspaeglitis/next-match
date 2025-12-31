@@ -1,0 +1,56 @@
+import { Link } from "@heroui/link";
+import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar";
+import { GiMatchTip } from "react-icons/gi";
+import NavLink from "./NavLink";
+import { Button } from "@heroui/button";
+
+export default async function TopNav() {
+   
+    const memberLinks = [
+        {href: '/members', label: 'Matches'},
+        {href: '/lists', label: 'Lists'},
+        {href: '/messages', label: 'Messages'},
+    ]
+
+    const adminLinks = [
+        {href: '/admin/moderation', label: 'Photo Moderation'}
+    ];
+
+    const links = memberLinks;
+
+    return (
+        <>
+            <Navbar maxWidth={'xl'}
+                className="bg-linear-to-r from-purple-400 to-purple-700"
+                classNames={{
+                    item: [
+                        'text-xl',
+                        'text-white',
+                        'uppercase',
+                        'data-[active=true]:text-yellow-200'
+                    ]
+                }}
+            >
+                <NavbarBrand as={Link} href='/'>
+                    <GiMatchTip size={40} className="text-gray-200" />
+                    <div className='font-bold text-3xl flex'>
+                        <span className='text-gray-900'>Next</span>
+                        <span className='text-gray-200'>Match</span>
+                    </div>
+                </NavbarBrand>
+                <NavbarContent justify="center">
+                     {links.map(item => (
+                        <NavLink key={item.href} href={item.href} label={item.label} />
+                    ))}
+                </NavbarContent>
+                <NavbarContent justify="end">
+                    <>
+                        <Button as={Link} href={'/login'} variant={'bordered'} className={'text-white'}>Login</Button>
+                        <Button as={Link} href={'/register'} variant={'bordered'}
+                                className={'text-white'}>Register</Button>
+                    </>
+                </NavbarContent>
+            </Navbar>
+        </>
+    );
+}
