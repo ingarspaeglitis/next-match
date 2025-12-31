@@ -3,8 +3,11 @@ import { Navbar, NavbarBrand, NavbarContent } from "@heroui/navbar";
 import { GiMatchTip } from "react-icons/gi";
 import NavLink from "./NavLink";
 import { Button } from "@heroui/button";
+import { auth } from "@/auth";
+import UserMenu from "./UserMenu";
 
 export default async function TopNav() {
+   const session = await auth();
    
     const memberLinks = [
         {href: '/members', label: 'Matches'},
@@ -43,13 +46,17 @@ export default async function TopNav() {
                         <NavLink key={item.href} href={item.href} label={item.label} />
                     ))}
                 </NavbarContent>
-                <NavbarContent justify="end">
+                <NavbarContent justify='end'>
+                {session?.user ? (
+                    <UserMenu user={session.user} />
+                ) : (
                     <>
-                        <Button as={Link} href={'/login'} variant={'bordered'} className={'text-white'}>Login</Button>
-                        <Button as={Link} href={'/register'} variant={'bordered'}
-                                className={'text-white'}>Register</Button>
+                        <Button as={Link} href='/login' variant='bordered' className='text-white'>Login</Button>
+                        <Button as={Link} href='/register' variant='bordered' className='text-white'>Register</Button>
                     </>
-                </NavbarContent>
+                )}
+
+            </NavbarContent>
             </Navbar>
         </>
     );

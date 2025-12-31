@@ -4,16 +4,17 @@ import {Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger} 
 import {Avatar} from '@heroui/avatar';
 import Link from 'next/link';
 import { transformImageUrl } from '../../lib/util';
-
+import { Session } from 'next-auth';
+import { signOutUser } from '@/app/actions/authActions';
 
 type Props = {
-    user: {name: string | null; image: string | null} | null
+    user: Session['user']
 }
 
 export default function UserMenu({user}: Props) {
     return (
         <Dropdown placement="bottom-end">
-        <DropdownTrigger>
+            <DropdownTrigger>
                 <Avatar
                     isBordered
                     as='button'
@@ -33,7 +34,7 @@ export default function UserMenu({user}: Props) {
                 <DropdownItem key='editProfile' as={Link} href='/members/edit'>
                     Edit profile
                 </DropdownItem>
-                <DropdownItem key='logOut' color='danger'>
+                <DropdownItem key='logOut' color='danger' onPress={async () => signOutUser()} >
                     Log out
                 </DropdownItem>
             </DropdownMenu>
